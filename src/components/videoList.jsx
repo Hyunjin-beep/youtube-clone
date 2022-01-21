@@ -7,8 +7,9 @@ class VideoList extends Component {
       <ul className="videoItems">
         {this.props.videoData.map(videoDataItem => (
           <VideoItem
-            key={videoDataItem.channelId}
-            videoData={videoDataItem}
+            key={videoDataItem.etag}
+            videoData={videoDataItem.snippet}
+            onShow={this.props.onShow}
           ></VideoItem>
         ))}
       </ul>

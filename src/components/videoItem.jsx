@@ -1,9 +1,16 @@
 import React, { Component } from 'react'
 
 class VideoItem extends Component {
+  handleClick = () => {
+    this.props.onShow(true)
+  }
+
   render() {
+    // if (this.props.videoData.title.length > 50) {
+    //   this.props.videoData.title.substring(0, 49)
+    // }
     return (
-      <li className="videoItem">
+      <li className="videoItem" onClick={this.handleClick}>
         <img
           src={this.props.videoData.thumbnails.default.url}
           alt=""
