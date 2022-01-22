@@ -10,7 +10,7 @@ class VideoItem extends Component {
     //   this.props.videoData.title.substring(0, 49)
     // }
     return (
-      <li className="videoItem" onClick={this.handleClick}>
+      <li className={this.props.onItemClassName} onClick={this.handleClick}>
         <img
           src={this.props.videoData.thumbnails.default.url}
           alt=""

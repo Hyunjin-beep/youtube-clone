@@ -79,6 +79,8 @@ body {
   font-size: var(--font-medium);
 }
 
+/* videoItems */
+
 .videoItems {
   list-style: none;
   padding: 0px 5px;
@@ -92,6 +94,31 @@ body {
   width: 50%;
   float: left;
   padding: 5px;
+}
+
+.side_videoItems {
+  list-style: none;
+  margin: 0 auto;
+  width: 40%;
+
+  float: right;
+}
+
+.side_videoItem {
+  display: flex;
+  margin-bottom: 5px;
+  box-shadow: 3px 3px var(--grey-light-color);
+}
+
+.side_videoItem .video_data {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.side_videoItem .video_data span {
+  margin: auto;
 }
 
 .video_data {

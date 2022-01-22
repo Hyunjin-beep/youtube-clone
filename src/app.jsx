@@ -8,6 +8,7 @@ class app extends Component {
   state = {
     videoData: [],
     detailStaus: false,
+    clicked: false,
   }
 
   componentDidMount() {
@@ -36,6 +37,8 @@ class app extends Component {
 
   handleShow = status => {
     this.setState({ detailStaus: status })
+    const currentState = this.state.clicked
+    this.setState({ clicked: !currentState })
   }
   render() {
     return (
@@ -44,6 +47,10 @@ class app extends Component {
         {this.state.detailStaus ? <VideoDetail></VideoDetail> : null}
 
         <VideoList
+          onListClassName={
+            this.state.clicked ? 'side_videoItems' : 'videoItems'
+          }
+          onItemClassName={this.state.clicked ? 'side_videoItem' : 'videoItem'}
           videoData={this.state.videoData}
           onShow={this.handleShow}
         ></VideoList>
