@@ -9,6 +9,7 @@ class app extends Component {
     videoData: [],
     detailStaus: false,
     clicked: false,
+    clickedVideoDetail: [],
   }
 
   componentDidMount() {
@@ -40,20 +41,34 @@ class app extends Component {
     const currentState = this.state.clicked
     this.setState({ clicked: !currentState })
   }
+
+  handleItem = detail => {
+    this.setState({ clickedVideoDetail: detail })
+  }
+
   render() {
     return (
       <>
         <Header onSearch={this.handleSearch}></Header>
-        {this.state.detailStaus ? <VideoDetail></VideoDetail> : null}
+        <div className={this.state.clicked ? 'video_container' : null}>
+          {this.state.detailStaus ? (
+            <VideoDetail
+              clickedVideoData={this.state.clickedVideoDetail}
+            ></VideoDetail>
+          ) : null}
 
-        <VideoList
-          onListClassName={
-            this.state.clicked ? 'side_videoItems' : 'videoItems'
-          }
-          onItemClassName={this.state.clicked ? 'side_videoItem' : 'videoItem'}
-          videoData={this.state.videoData}
-          onShow={this.handleShow}
-        ></VideoList>
+          <VideoList
+            onListClassName={
+              this.state.clicked ? 'side_videoItems' : 'videoItems'
+            }
+            onItemClassName={
+              this.state.clicked ? 'side_videoItem' : 'videoItem'
+            }
+            videoData={this.state.videoData}
+            onShow={this.handleShow}
+            onClickedItem={this.handleItem}
+          ></VideoList>
+        </div>
       </>
     )
   }
