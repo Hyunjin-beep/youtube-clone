@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import VideoList from './components/videoList'
-import './app.css'
-import Header from './components/header'
-import VideoDetail from './components/videoDetail'
+import VideoList from './components/video_list/videoList'
+import styles from './app.module.css'
+import Header from './components/header/header'
+import VideoDetail from './components/video_detail/videoDetail'
 
 class app extends Component {
   state = {
@@ -19,6 +19,7 @@ class app extends Component {
   }
 
   handleSearch = searchQuery => {
+    console.log(this.props.youtube.search(searchQuery))
     this.props.youtube
       .search(searchQuery)
       .then(video => this.setState({ videoData: video }))
@@ -36,28 +37,27 @@ class app extends Component {
 
   render() {
     return (
-      <>
+      <div className={styles.app}>
         <Header onSearch={this.handleSearch}></Header>
-        <div className={this.state.clicked ? 'video_container' : null}>
+        <div className={this.state.clicked ? styles.video_container : null}>
           {this.state.detailStaus ? (
-            <VideoDetail
-              clickedVideoData={this.state.clickedVideoDetail}
-            ></VideoDetail>
+            <div className={styles.detail}>
+              <VideoDetail
+                clickedVideoData={this.state.clickedVideoDetail}
+              ></VideoDetail>
+            </div>
           ) : null}
 
-          <VideoList
-            onListClassName={
-              this.state.clicked ? 'side_videoItems' : 'videoItems'
-            }
-            onItemClassName={
-              this.state.clicked ? 'side_videoItem' : 'videoItem'
-            }
-            videoData={this.state.videoData}
-            onShow={this.handleShow}
-            onClickedItem={this.handleItem}
-          ></VideoList>
+          <div className={styles.list}>
+            <VideoList
+              onItemClassName={this.state.clicked ? 'list' : 'grid'}
+              videoData={this.state.videoData}
+              onShow={this.handleShow}
+              onClickedItem={this.handleItem}
+            ></VideoList>
+          </div>
         </div>
-      </>
+      </div>
     )
   }
 }

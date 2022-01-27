@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import VideoItem from './videoItem'
+import VideoItem from '../video_item/videoItem'
+import styles from './video_list.module.css'
 
 class VideoList extends Component {
   handleItem = detail => {
@@ -8,7 +9,7 @@ class VideoList extends Component {
 
   render() {
     return (
-      <ul className={this.props.onListClassName}>
+      <ul className={styles.videos}>
         {this.props.videoData.map(videoDataItem => (
           <VideoItem
             onItemClassName={this.props.onItemClassName}
