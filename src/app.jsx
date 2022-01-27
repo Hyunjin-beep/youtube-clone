@@ -13,27 +13,15 @@ class app extends Component {
   }
 
   componentDidMount() {
-    fetch(
-      `https://youtube.googleapis.com/youtube/v3/videos?part=snippet&chart=mostPopular&maxResults=50&key=AIzaSyB9JPCrbfjfImK0EmNXO5vckiiJBGbh8cA`,
-      { method: 'get' }
-    )
-      .then(response => {
-        return response.json()
-      })
-      .then(json => this.setState({ videoData: json.items.map(item => item) }))
-      .catch(error => console.log('error', error))
+    this.props.youtube
+      .mostPopular()
+      .then(video => this.setState({ videoData: video }))
   }
 
   handleSearch = searchQuery => {
-    fetch(
-      `https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=25&q=${searchQuery}&key=AIzaSyB9JPCrbfjfImK0EmNXO5vckiiJBGbh8cA&key=AIzaSyB9JPCrbfjfImK0EmNXO5vckiiJBGbh8cA`,
-      { method: 'get' }
-    )
-      .then(response => {
-        return response.json()
-      })
-      .then(json => this.setState({ videoData: json.items.map(item => item) }))
-      .catch(error => console.log('error', error))
+    this.props.youtube
+      .search(searchQuery)
+      .then(video => this.setState({ videoData: video }))
   }
 
   handleShow = status => {
