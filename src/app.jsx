@@ -7,7 +7,6 @@ import VideoDetail from './components/video_detail/videoDetail'
 class app extends Component {
   state = {
     videoData: [],
-    detailStaus: false,
     clicked: false,
     clickedVideoDetail: [],
   }
@@ -19,14 +18,13 @@ class app extends Component {
   }
 
   handleSearch = searchQuery => {
-    console.log(this.props.youtube.search(searchQuery))
-    this.props.youtube
-      .search(searchQuery)
-      .then(video => this.setState({ videoData: video }))
+    this.props.youtube.search(searchQuery).then(video => {
+      this.setState({ videoData: video })
+      this.setState({ clicked: false })
+    })
   }
 
-  handleShow = status => {
-    this.setState({ detailStaus: status })
+  handleShow = () => {
     const currentState = this.state.clicked
     this.setState({ clicked: !currentState })
   }
@@ -40,7 +38,7 @@ class app extends Component {
       <div className={styles.app}>
         <Header onSearch={this.handleSearch}></Header>
         <div className={this.state.clicked ? styles.video_container : null}>
-          {this.state.detailStaus ? (
+          {this.state.clicked ? (
             <div className={styles.detail}>
               <VideoDetail
                 clickedVideoData={this.state.clickedVideoDetail}

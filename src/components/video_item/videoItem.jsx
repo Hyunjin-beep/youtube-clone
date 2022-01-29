@@ -2,10 +2,6 @@ import React, { Component } from 'react'
 import styles from './video_item.module.css'
 
 class VideoItem extends Component {
-  handleClick = () => {
-    this.props.onShow(true)
-  }
-
   handleItem = () => {
     this.props.onClickedItem(this.props.videoData)
   }

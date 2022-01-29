@@ -1,7 +1,7 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import styles from './header.module.css'
 
-class Header extends Component {
+class Header extends PureComponent {
   input = React.createRef()
 
   handleSubmit = event => {
@@ -14,6 +14,7 @@ class Header extends Component {
     this.input.current.value = ''
   }
   render() {
+    console.log('header')
     return (
       <header className={styles.header}>
         <div className={styles.logo}>

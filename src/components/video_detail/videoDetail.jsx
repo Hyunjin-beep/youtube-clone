@@ -23,9 +23,9 @@ class VideoDetail extends Component {
         <h2 className={styles.channel}>
           {this.props.clickedVideoData.snippet.channelTitle}
         </h2>
-        <prev className={styles.description}>
+        <pre className={styles.description}>
           {this.props.clickedVideoData.snippet.description}
-        </prev>
+        </pre>
       </div>
     )
   }
