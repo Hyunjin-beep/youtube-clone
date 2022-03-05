@@ -1,70 +1,153 @@
-# Getting Started with Create React App
+# Title: Youtube Clone Project
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Languages: React
 
-## Available Scripts
+# API : Google Youtube API
 
-In the project directory, you can run:
+# Others : Postman, Axios
 
-### `npm start`
+> ## TABLE OF CONTENTS
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### 1. About the project
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### 2. Why do I start this project?
 
-### `npm test`
+### 3. Details of project
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### 4. Reference
 
-### `npm run build`
+---
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## 1. About the project
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+This project is Youtube-Clone.  
+Google Youtube API and Postman are used for this project.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+List most popular videos when loading and When a user clicks a video, the page shows video, its detail from API and the most popular videos list located at right-side.
 
-### `npm run eject`
+Lastly, when the user searchs with keyword, the list of videos with keyword is displayed.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+---
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## 2. Why do I start this project?
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+After starting to learn React, I would like to practice API for React project. So one of the most popular APIs, Google Youtube API is used.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+---
 
-## Learn More
+## 3. Details of project
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+There are overall two pages : main page(most popular videos and Search page) and video detail page.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- Main Page
 
-### Code Splitting
+![youtube 1st](https://user-images.githubusercontent.com/64330888/156896221-f0c0d047-154c-4505-9f88-6c335a3086b3.png)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+I got all required video data (videoID, title, creator, thumbnails) from results by Google Youtube API - mostPopular
 
-### Analyzing the Bundle Size
+```
+const httpClient = axios.create({
+  baseURL: `https://youtube.googleapis.com/youtube/v3`,
+  params: { key: `AIzaSyB9JPCrbfjfImK0EmNXO5vckiiJBGbh8cA` },
+})
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+async mostPopular() {
+    // Axios
+    const response = await this.youtube.get('videos', {
+      params: {
+        part: 'snippet',
+        chart: 'mostPopular',
+        maxResults: 25,
+      },
+    })
 
-### Making a Progressive Web App
+    return response.data.items
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+    // Fetch
+    // const response = await fetch(`url`, this.getRequestOptions)
+    // const result = await response.json()
+    // return result.items
+  }
+```
 
-### Advanced Configuration
+- Detail Page
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+![youtube 2nd](https://user-images.githubusercontent.com/64330888/156899919-cb71a87d-21a1-4f28-849c-e8841562b595.png)
 
-### Deployment
+I used iframe with https://youtube.com/embed/videoID for src and the most popular video list above is used again on the right side by making status (clicked in app.jsx) false/true.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+```
+    <div className={this.state.clicked ? styles.video_container : null}>
+        {this.state.clicked ? (
+            <div className={styles.detail}>
+              <VideoDetail
+                clickedVideoData={this.state.clickedVideoDetail}
+              ></VideoDetail>
+            </div>
+          ) : null}
 
-### `npm run build` fails to minify
+          <div className={styles.list}>
+            <VideoList
+              onItemClassName={this.state.clicked ? 'list' : 'grid'}
+              videoData={this.state.videoData}
+              onShow={this.handleShow}
+              onClickedItem={this.handleItem}
+            ></VideoList>
+          </div>
+    </div>
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- Search Page
+
+![youtube 3rd](https://user-images.githubusercontent.com/64330888/156900006-bbadaf30-44db-450e-8dd3-8a860a0419d8.png)
+
+When a user search with keyword, the list of video with the keyword is displayed. (from results by Google Youtube API - search)
+
+```
+    async search(query) {
+    const response = await this.youtube.get('search', {
+      params: {
+        part: 'snippet',
+        maxResults: 25,
+        type: 'video',
+        q: query,
+      },
+    })
+
+    return response.data.items.map(item => ({ ...item, id: item.id.videoId }))
+```
+
+overall structure
+
+(not clicked & when searching)
+
+- app
+  - VideoList
+    - VideoItem
+    - VideoItem
+
+(clicked)
+
+- app
+  - VideoDetail
+  - VideoList
+    - VideoItem
+    - VideoItem
+
+## 4. Reference
+
+Dream Coding Lecture
+
+- https://academy.dream-coding.com/
+
+Google Youtube API
+
+- Search
+  - https://developers.google.com/youtube/v3/docs/search/list
+- Most Popular
+  - https://developers.google.com/youtube/v3/docs/videos/list
+
+Other Resrouces
+
+- https://www.youtube.com/watch?v=TE66McLMMEw
+- Google Developer Console for getting API key

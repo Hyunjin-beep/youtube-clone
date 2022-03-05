@@ -13,6 +13,10 @@ class Youtube {
     })
 
     return response.data.items
+
+    // const response = await fetch(`url`, this.getRequestOptions)
+    // const result = await response.json()
+    // return result.items
   }
 
   async search(query) {
@@ -25,6 +29,7 @@ class Youtube {
       },
     })
 
+    // id를 기존의 id가 아닌 (id {type:video#video, videoId:'sfsdf}) videoId로 변경
     return response.data.items.map(item => ({ ...item, id: item.id.videoId }))
   }
 }
