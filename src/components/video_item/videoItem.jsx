@@ -2,13 +2,11 @@ import React, { Component } from 'react'
 import styles from './video_item.module.css'
 
 class VideoItem extends Component {
-  handleItem = () => {
-    this.props.onClickedItem(this.props.videoData)
-  }
+  // handleItem = () => {
+  //   this.props.onClickedItem(this.props.videoData)
+  // }
 
   handleClick = () => {
-    // this.handleClick
-    // this.handleItem
     this.props.onShow(true)
     this.props.onClickedItem(this.props.videoData)
   }
